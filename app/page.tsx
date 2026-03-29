@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
 const Logo = ({ className = "w-10 h-10" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -12,18 +15,34 @@ const Logo = ({ className = "w-10 h-10" }: { className?: string }) => (
 );
 
 const products = [
-  { id: 1, name: "LIGHT SPRING TRENCH POPPY", price: "1 080 EUR", image: "https://picsum.photos/seed/fashion1/600/800?grayscale" },
-  { id: 2, name: "MERINO TURTLENECK BLACK", price: "510 EUR", image: "https://picsum.photos/seed/fashion2/600/800?grayscale" },
-  { id: 3, name: "STRIPED MINI SKIRT ICE/WHITE", price: "550 EUR", image: "https://picsum.photos/seed/fashion3/600/800?grayscale" },
-  { id: 4, name: "CREW CAPE KNIT DARK GREY", price: "910 EUR", image: "https://picsum.photos/seed/fashion4/600/800?grayscale" },
-  { id: 5, name: "BROAD PEACOAT BLACK", price: "1 460 EUR", image: "https://picsum.photos/seed/fashion5/600/800?grayscale" },
-  { id: 6, name: "OVERSIZED STRIPED SHIRT BLUE", price: "670 EUR", image: "https://picsum.photos/seed/fashion6/600/800?grayscale" },
-  { id: 7, name: "FUNNEL ALPACA-BLEND KNIT BLACK", price: "600 EUR", image: "https://picsum.photos/seed/fashion7/600/800?grayscale" },
-  { id: 8, name: "CINCHED POCKET JACKET BLACK", price: "680 EUR", image: "https://picsum.photos/seed/fashion8/600/800?grayscale" },
-  { id: 9, name: "LIGHT SPRING TRENCH POPPY", price: "1 080 EUR", image: "https://picsum.photos/seed/fashion9/600/800?grayscale" },
-  { id: 10, name: "WIDE FLANNEL TROUSERS NAVY PETITE", price: "450 EUR", image: "https://picsum.photos/seed/fashion10/600/800?grayscale" },
-  { id: 11, name: "SHORT FLUID JERSEY SKIRT BLACK", price: "350 EUR", image: "https://picsum.photos/seed/fashion11/600/800?grayscale" },
-  { id: 12, name: "SLOUCH WAIST WOOL DRESS POPPY", price: "710 EUR", image: "https://picsum.photos/seed/fashion12/600/800?grayscale" },
+  { id: 1, name: "LIGHT SPRING TRENCH POPPY", price: "1 080 EUR", image: "https://picsum.photos/seed/fashion1/600/800?grayscale", category: "Ready to wear" },
+  { id: 2, name: "MERINO TURTLENECK BLACK", price: "510 EUR", image: "https://picsum.photos/seed/fashion2/600/800?grayscale", category: "Ready to wear" },
+  { id: 3, name: "STRIPED MINI SKIRT ICE/WHITE", price: "550 EUR", image: "https://picsum.photos/seed/fashion3/600/800?grayscale", category: "Ready to wear" },
+  { id: 4, name: "CREW CAPE KNIT DARK GREY", price: "910 EUR", image: "https://picsum.photos/seed/fashion4/600/800?grayscale", category: "Ready to wear" },
+  { id: 5, name: "BROAD PEACOAT BLACK", price: "1 460 EUR", image: "https://picsum.photos/seed/fashion5/600/800?grayscale", category: "Ready to wear" },
+  { id: 6, name: "OVERSIZED STRIPED SHIRT BLUE", price: "670 EUR", image: "https://picsum.photos/seed/fashion6/600/800?grayscale", category: "Ready to wear" },
+  { id: 7, name: "FUNNEL ALPACA-BLEND KNIT BLACK", price: "600 EUR", image: "https://picsum.photos/seed/fashion7/600/800?grayscale", category: "Ready to wear" },
+  { id: 8, name: "CINCHED POCKET JACKET BLACK", price: "680 EUR", image: "https://picsum.photos/seed/fashion8/600/800?grayscale", category: "Ready to wear" },
+  { id: 9, name: "LIGHT SPRING TRENCH POPPY", price: "1 080 EUR", image: "https://picsum.photos/seed/fashion9/600/800?grayscale", category: "Ready to wear" },
+  { id: 10, name: "WIDE FLANNEL TROUSERS NAVY PETITE", price: "450 EUR", image: "https://picsum.photos/seed/fashion10/600/800?grayscale", category: "Ready to wear" },
+  { id: 11, name: "SHORT FLUID JERSEY SKIRT BLACK", price: "350 EUR", image: "https://picsum.photos/seed/fashion11/600/800?grayscale", category: "Ready to wear" },
+  { id: 12, name: "SLOUCH WAIST WOOL DRESS POPPY", price: "710 EUR", image: "https://picsum.photos/seed/fashion12/600/800?grayscale", category: "Ready to wear" },
+  { id: 17, name: "LEATHER TOTE BAG", price: "850 EUR", image: "https://picsum.photos/seed/bag1/600/800?grayscale", category: "Bags" },
+  { id: 18, name: "SILK SCARF", price: "250 EUR", image: "https://picsum.photos/seed/acc1/600/800?grayscale", category: "Accessories" },
+  { id: 19, name: "POINTY TOE PUMPS", price: "550 EUR", image: "https://picsum.photos/seed/shoes1/600/800?grayscale", category: "Shoes" },
+  { id: 20, name: "GOLD HOOP EARRINGS", price: "320 EUR", image: "https://picsum.photos/seed/jewel1/600/800?grayscale", category: "Jewelry" },
+  { id: 21, name: "SIGNATURE COAT", price: "1 200 EUR", image: "https://picsum.photos/seed/sig1/600/800?grayscale", category: "Signature Pieces" },
+  { id: 22, name: "GARDEROB ESSENTIAL TEE", price: "150 EUR", image: "https://picsum.photos/seed/gard1/600/800?grayscale", category: "Garderob" },
+];
+
+const categories = [
+  "Ready to wear",
+  "Accessories",
+  "Garderob",
+  "Bags",
+  "Shoes",
+  "Jewelry",
+  "Signature Pieces"
 ];
 
 const newArrivals = [
@@ -34,6 +53,10 @@ const newArrivals = [
 ];
 
 export default function Page() {
+  const [activeCategory, setActiveCategory] = useState("Ready to wear");
+
+  const filteredProducts = products.filter(product => product.category === activeCategory);
+
   return (
     <div className="min-h-screen flex flex-col">
       {/* Header */}
@@ -81,13 +104,19 @@ export default function Page() {
           <div className="border-y border-black/10 py-5 flex flex-col lg:flex-row justify-between items-center gap-6 text-[9px] font-bold tracking-[0.15em] uppercase">
             <div className="w-full lg:w-auto text-left">Collection</div>
             <div className="flex flex-wrap justify-center lg:justify-end gap-6 md:gap-10 w-full lg:w-auto">
-              <Link href="#" className="text-black">Ready to wear</Link>
-              <Link href="#" className="text-black/40 hover:text-black transition-colors">Accessories</Link>
-              <Link href="#" className="text-black/40 hover:text-black transition-colors">Garderob</Link>
-              <Link href="#" className="text-black/40 hover:text-black transition-colors">Bags</Link>
-              <Link href="#" className="text-black/40 hover:text-black transition-colors">Shoes</Link>
-              <Link href="#" className="text-black/40 hover:text-black transition-colors">Jewelry</Link>
-              <Link href="#" className="text-black/40 hover:text-black transition-colors">Signature Pieces</Link>
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => setActiveCategory(category)}
+                  className={`uppercase transition-colors ${
+                    activeCategory === category
+                      ? "font-bold text-black"
+                      : "text-black/40 hover:text-black"
+                  }`}
+                >
+                  {category}
+                </button>
+              ))}
             </div>
           </div>
         </section>
@@ -95,7 +124,7 @@ export default function Page() {
         {/* Product Grid */}
         <section className="px-4 md:px-8 mb-20">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-16">
-            {products.map((product) => (
+            {filteredProducts.map((product) => (
               <Link href="#" key={product.id} className="group block">
                 <div className="relative aspect-[3/4] mb-5 bg-[#e5e5e5] overflow-hidden">
                   <Image
