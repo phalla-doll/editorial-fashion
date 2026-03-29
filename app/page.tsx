@@ -33,6 +33,12 @@ const products = [
   { id: 20, name: "GOLD HOOP EARRINGS", price: "320 EUR", image: "https://picsum.photos/seed/jewel1/600/800?grayscale", category: "Jewelry" },
   { id: 21, name: "SIGNATURE COAT", price: "1 200 EUR", image: "https://picsum.photos/seed/sig1/600/800?grayscale", category: "Signature Pieces" },
   { id: 22, name: "GARDEROB ESSENTIAL TEE", price: "150 EUR", image: "https://picsum.photos/seed/gard1/600/800?grayscale", category: "Garderob" },
+  { id: 23, name: "CANVAS TOTE", price: "450 EUR", image: "https://picsum.photos/seed/bag2/600/800?grayscale", category: "Bags" },
+  { id: 24, name: "CASHMERE SCARF", price: "350 EUR", image: "https://picsum.photos/seed/acc2/600/800?grayscale", category: "Accessories" },
+  { id: 25, name: "LEATHER LOAFERS", price: "480 EUR", image: "https://picsum.photos/seed/shoes2/600/800?grayscale", category: "Shoes" },
+  { id: 26, name: "SILVER RING", price: "210 EUR", image: "https://picsum.photos/seed/jewel2/600/800?grayscale", category: "Jewelry" },
+  { id: 27, name: "SIGNATURE BLAZER", price: "950 EUR", image: "https://picsum.photos/seed/sig2/600/800?grayscale", category: "Signature Pieces" },
+  { id: 28, name: "GARDEROB DENIM", price: "220 EUR", image: "https://picsum.photos/seed/gard2/600/800?grayscale", category: "Garderob" },
 ];
 
 const categories = [
@@ -53,9 +59,11 @@ const newArrivals = [
 ];
 
 export default function Page() {
-  const [activeCategory, setActiveCategory] = useState("Ready to wear");
+  const [activeCategory, setActiveCategory] = useState("All");
 
-  const filteredProducts = products.filter(product => product.category === activeCategory);
+  const filteredProducts = activeCategory === "All" 
+    ? products 
+    : products.filter(product => product.category === activeCategory);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -102,7 +110,14 @@ export default function Page() {
         {/* Filter Bar */}
         <section className="px-4 md:px-8 mb-12">
           <div className="border-y border-black/10 py-5 flex flex-col lg:flex-row justify-between items-center gap-6 text-[9px] font-bold tracking-[0.15em] uppercase">
-            <div className="w-full lg:w-auto text-left">Collection</div>
+            <button 
+              onClick={() => setActiveCategory("All")}
+              className={`w-full lg:w-auto text-left uppercase transition-colors ${
+                activeCategory === "All" ? "font-bold text-black" : "text-black hover:text-black/70"
+              }`}
+            >
+              Collection
+            </button>
             <div className="flex flex-wrap justify-center lg:justify-end gap-6 md:gap-10 w-full lg:w-auto">
               {categories.map((category) => (
                 <button
