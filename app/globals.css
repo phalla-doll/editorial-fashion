@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-anton: var(--font-anton), ui-sans-serif, system-ui, sans-serif;
+}
